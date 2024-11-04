@@ -1,6 +1,7 @@
 # server dockerfile
+
 # Step 1: Build the application
-FROM openjdk:17-jdk-slim AS builder
+FROM gradle:7.5.1-jdk17 AS builder
 
 WORKDIR /app
 
@@ -18,7 +19,7 @@ COPY . .
 RUN ./gradlew build -x test --no-daemon -Pprofile=prod
 
 # Step 2: Create the actual image to run the application
-FROM openjdk:17-jdk-slim
+FROM amazoncorretto:17-alpine
 WORKDIR /app
 
 # 빌드된 JAR 파일 복사
