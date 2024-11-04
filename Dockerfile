@@ -1,5 +1,4 @@
 # server dockerfile
-
 # Step 1: Build the application
 FROM gradle:7.5.1-jdk17 AS builder
 
