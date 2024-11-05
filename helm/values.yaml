@@ -7,7 +7,7 @@ server:
   replicaCount: 1
   image:
     repository: ktb9/travel-server
-    tag: test.0.0.5
+    tag: ${IMAGE_TAG}
   service:
     type: ClusterIP
     port: 8080
