@@ -1,0 +1,19 @@
+# Global 설정
+global:
+  imagePullPolicy: Always
+
+# Server 서비스 설정
+server:
+  replicaCount: 1
+  image:
+    repository: ktb9/travel-server
+    tag: test.0.0.5
+  service:
+    type: ClusterIP
+    port: 8080
+  config:
+    rdsUrl: "{{ .Values.config.rdsUrl }}"
+
+# Configmap 설정
+config:
+  rdsUrl: "jdbc:mysql://ktb9-rds-instance.cpumy2eao5qo.ap-northeast-2.rds.amazonaws.com:3306/ktb9db"

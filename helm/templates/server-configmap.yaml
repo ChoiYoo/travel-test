@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: server-config
+  labels:
+    app: travel-server
+data:
+  RDS_URL: "{{ .Values.config.rdsUrl }}"
