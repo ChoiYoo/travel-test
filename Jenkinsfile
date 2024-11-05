@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     environment {
         REGISTRY = 'ktb9/travel-server' // Docker Hub 레지스트리 이름
         IMAGE_TAG = "${env.BUILD_NUMBER}" // 이미지 태그는 빌드 번호로 설정
@@ -10,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/ChoiYoo/travel-test.git'
+                git branch: 'infra-update', url: 'https://github.com/ChoiYoo/travel-test.git'
             }
         }
 
@@ -25,6 +24,29 @@ pipeline {
                         '''
                     }
                 }
+            }
+        }
+
+        stage('Update Helm Chart') {
+            steps {
+                script {
+                    sh '''
+                    sed -i 's/tag:.*/tag: ${IMAGE_TAG}/g' helm/values.yaml
+                    git config --global user.email "green980611@naver.com"
+                    git config --global user.name "ChoiYoo"
+                    git add helm/values.yaml
+                    git commit -m "Update image tag to ${IMAGE_TAG}"
+                    git push origin infra
+                    '''
+                }
+            }
+        }
+
+        stage('ArgoCD Sync') {
+            steps {
+                sh '''
+                argocd app sync travel-app-prac
+                '''
             }
         }
     }
