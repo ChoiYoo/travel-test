@@ -51,7 +51,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'argocd-credentials', usernameVariable: 'ARGOCD_USER', passwordVariable: 'ARGOCD_PASS')]) {
                         sh '''
-                        argocd login --username ${ARGOCD_USER} --password ${ARGOCD_PASS} --insecure
+                        argocd login https://argocd.zero-dang.com --username ${ARGOCD_USER} --password ${ARGOCD_PASS} --insecure
                         argocd app sync travel-app-prac
                         '''
                     }
