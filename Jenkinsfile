@@ -45,13 +45,19 @@ pipeline {
             }
         }
 
-        stage('ArgoCD Sync') {
-            steps {
+stage('ArgoCD Sync') {
+    steps {
+        script {
+            withCredentials([usernamePassword(credentialsId: 'argocd-credentials', usernameVariable: 'ARGOCD_USER', passwordVariable: 'ARGOCD_PASS')]) {
                 sh '''
+                argocd login https://your-argocd-server-address --username $ARGOCD_USER --password $ARGOCD_PASS --insecure
                 argocd app sync travel-app-prac
                 '''
             }
         }
+    }
+}
+
     }
 
     post {
