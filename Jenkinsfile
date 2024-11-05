@@ -7,9 +7,9 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout Main Branch') {
             steps {
-                git branch: 'infra-update', url: 'https://github.com/ChoiYoo/travel-test.git'
+                git branch: 'main', url: 'https://github.com/ChoiYoo/travel-test.git'
             }
         }
 
@@ -27,10 +27,11 @@ pipeline {
             }
         }
 
-        stage('Update Helm Chart') {
+        stage('Update Helm Chart in Infra Branch') {
             steps {
                 script {
                     sh '''
+                    git checkout infra
                     sed -i 's/tag:.*/tag: ${IMAGE_TAG}/g' helm/values.yaml
                     git config --global user.email "green980611@naver.com"
                     git config --global user.name "ChoiYoo"
