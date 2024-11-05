@@ -5,9 +5,6 @@ pipeline {
         REGISTRY = 'ktb9/travel-server' // Docker Hub 레지스트리 이름
         IMAGE_TAG = "${env.BUILD_NUMBER}" // 이미지 태그는 빌드 번호로 설정
         DOCKER_CREDENTIALS = credentials('docker-hub-credentials') // Docker Hub 자격증명
-        GIT_CREDENTIALS = credentials('travel-jenkins-prac') // GitHub 자격증명
-        ARGOCD_USER = credentials('argocd-credentials').username // ArgoCD 자격증명
-        ARGOCD_PASS = credentials('argocd-credentials').password
     }
 
     stages {
@@ -41,7 +38,7 @@ pipeline {
                         git checkout infra
                         sed -i "s/tag:.*/tag: ${IMAGE_TAG}/g" helm/values.yaml
                         git add helm/values.yaml
-                        git commit -m "Update image tag to ${IMAGE_TAG}"
+                        git commit -m "Update image tag to ${IMAGE_TAG}" || echo "No changes to commit"
                         git push https://${GIT_USER}:${GIT_PASS}@github.com/ChoiYoo/travel-test.git infra
                         '''
                     }
