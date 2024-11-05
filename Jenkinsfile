@@ -30,15 +30,17 @@ pipeline {
         stage('Update Helm Chart in Infra Branch') {
             steps {
                 script {
-                    sh '''
-                    git checkout infra
-                    sed -i 's/tag:.*/tag: ${IMAGE_TAG}/g' helm/values.yaml
-                    git config --global user.email "green980611@naver.com"
-                    git config --global user.name "ChoiYoo"
-                    git add helm/values.yaml
-                    git commit -m "Update image tag to ${IMAGE_TAG}"
-                    git push origin infra
-                    '''
+                    withCredentials([usernamePassword(credentialsId: 'travel-jenkins-prac', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                        sh '''
+                        git checkout infra
+                        sed -i 's/tag:.*/tag: ${IMAGE_TAG}/g' helm/values.yaml
+                        git config --global user.email "green980611@naver.com"
+                        git config --global user.name "ChoiYoo"
+                        git add helm/values.yaml
+                        git commit -m "Update image tag to ${IMAGE_TAG}"
+                        git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/ChoiYoo/travel-test.git infra
+                        '''
+                    }
                 }
             }
         }
