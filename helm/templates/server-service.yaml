@@ -7,6 +7,6 @@ spec:
   type: {{ .Values.server.service.type }}
   ports:
     - port: {{ .Values.server.service.port }}
-      targetPort: {{ .Values.server.service.port }}
+      targetPort: {{ .Values.server.service.targetPort }}
   selector:
     app: server

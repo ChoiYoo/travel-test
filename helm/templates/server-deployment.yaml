@@ -17,7 +17,7 @@ spec:
           image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           ports:
-            - containerPort: {{ .Values.server.service.port }}
+            - containerPort: {{ .Values.server.service.targetPort }}
           env:
             - name: SPRING_DATASOURCE_URL
               valueFrom:
