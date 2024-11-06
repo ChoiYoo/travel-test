@@ -5,7 +5,10 @@ FROM gradle:8.10.2-jdk17-alpine AS builder
 WORKDIR /app
 
 # Gradle Wrapper 및 설정 파일 복사 (의존성 캐싱)
-COPY gradlew gradle build.gradle.kts settings.gradle.kts ./
+COPY gradlew ./
+COPY gradle gradle
+COPY build.gradle.kts .
+COPY settings.gradle.kts .
 
 # 의존성 설치 및 캐시 활용
 RUN ./gradlew dependencies --no-daemon --build-cache
