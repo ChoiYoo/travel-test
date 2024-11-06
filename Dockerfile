@@ -1,6 +1,6 @@
 # server dockerfile
 # Step 1: Build the application
-FROM gradle:8.10.2-jdk17-slim AS builder
+FROM gradle:8.10.2-jdk17-alpine AS builder
 
 WORKDIR /app
 
