@@ -15,7 +15,7 @@ COPY src/ ./src/
 RUN ./gradlew build -x test --no-daemon -Pprofile=prod --build-cache
 
 # Step 2: Create the actual image to run the application
-FROM amazoncorretto:17-alpine-slim
+FROM amazoncorretto:17-alpine
 WORKDIR /app
 
 # 빌드된 JAR 파일 복사
